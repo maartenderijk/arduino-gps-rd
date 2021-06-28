@@ -1,5 +1,6 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
+
 /*
    Based on sample code from TinyGPS++ (TinyGPSPlus).
 */
@@ -28,6 +29,7 @@ void loop()
     printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
     printFloat(gps.location.lng(), gps.location.isValid(), 12, 6);
     printFloat(gps.altitude.meters(), gps.altitude.isValid(), 7, 2);
+    printRD(gps.location.lat(), gps.location.lng(),gps.location.isValid());
     Serial.println();
 
     smartDelay(1000);
@@ -91,4 +93,18 @@ static void printStr(const char *str, int len)
     for (int i = 0; i < len; ++i)
         Serial.print(i < slen ? str[i] : ' ');
     smartDelay(0);
+}
+
+struct rdcoordinates
+{
+    double x;
+    double y;
+};
+
+static void printRD(float lat, float lng, bool valid) {
+    // Dummy function, should return RD X,Y Coodinates
+    rdcoordinates result = {1.0, 2.0};
+    Serial.print(result.x);
+    Serial.print(' ');
+    Serial.print(result.y);
 }
