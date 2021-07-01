@@ -29,7 +29,7 @@ void loop()
     printFloat(gps.location.lat(), gps.location.isValid(), 11, 6);
     printFloat(gps.location.lng(), gps.location.isValid(), 12, 6);
     printFloat(gps.altitude.meters(), gps.altitude.isValid(), 7, 2);
-    printRD(gps.location.lat(), gps.location.lng(),gps.location.isValid());
+    printRD(gps.location.lat(), gps.location.lng(), gps.location.isValid());
     Serial.println();
 
     smartDelay(1000);
@@ -86,7 +86,6 @@ static void printInt(unsigned long val, bool valid, int len)
     smartDelay(0);
 }
 
-
 static void printStr(const char *str, int len)
 {
     int slen = strlen(str);
@@ -97,13 +96,22 @@ static void printStr(const char *str, int len)
 
 struct rdcoordinates
 {
-    double x;
-    double y;
+    float x;
+    float y;
 };
 
-static void printRD(float lat, float lng, bool valid) {
-    // Dummy function, should return RD X,Y Coodinates
-    rdcoordinates result = {1.0, 2.0};
+static void printRD(float lat, float lng, bool valid)
+{
+    float dF = 0.36 * (lat - 52.15517440);
+    float dL = dL = 0.36 * (lng - 5.38720621);
+
+    float SomX = (190094.945 * dL) + (-11832.228 * dF * dL) + (-144.221 * pow(dF, 2) * dL) + (-32.391 * pow(dL, 3)) + (-0.705 * dF) + (-2.340 * pow(dF, 3) * dL) + (-0.608 * dF * pow(dL, 3)) + (-0.008 * pow(dL, 2)) + (0.148 * pow(dF, 2) * pow(dL, 3));
+    float SomY = (309056.544 * dF) + (3638.893 * pow(dL, 2)) + (73.077 * pow(dF, 2)) + (-157.984 * dF * pow(dL, 2)) + (59.788 * pow(dF, 3)) + (0.433 * dL) + (-6.439 * pow(dF, 2) * pow(dL, 2)) + (-0.032 * dF * dL) + (0.092 * pow(dL, 4)) + (-0.054 * dF * pow(dL, 4));
+
+    float X = 155000 + SomX;
+    float Y = 463000 + SomY;
+
+    rdcoordinates result = {X, Y};
     Serial.print(result.x);
     Serial.print(' ');
     Serial.print(result.y);
