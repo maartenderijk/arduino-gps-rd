@@ -1,9 +1,7 @@
 #include <TinyGPS++.h>
 #include <SoftwareSerial.h>
+#include <LiquidCrystal.h>
 
-/*
-   Based on sample code from TinyGPS++ (TinyGPSPlus).
-*/
 static const int RXPin = 2, TXPin = 3;
 static const uint32_t GPSBaud = 57600;
 
@@ -13,6 +11,9 @@ TinyGPSPlus gps;
 // The serial connection to the GPS device
 SoftwareSerial ss(RXPin, TXPin);
 
+// LCD setup
+LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
+
 void setup()
 {
     Serial.begin(115200);
@@ -21,6 +22,8 @@ void setup()
     Serial.println(F("Sats Latitude   Longitude   Alt   "));
     Serial.println(F("     (deg)      (deg)       (m)   "));
     Serial.println(F("----------------------------------"));
+
+    lcd.begin(16, 2);
 }
 
 void loop()
@@ -115,4 +118,13 @@ static void printRD(float lat, float lng, bool valid)
     Serial.print(result.x);
     Serial.print(' ');
     Serial.print(result.y);
+
+    lcd.setCursor(0, 0);
+    lcd.print('x');
+    lcd.setCursor(2, 0);
+    lcd.print(result.x);
+    lcd.setCursor(0, 1);
+    lcd.print('y');
+    lcd.setCursor(2, 1);
+    lcd.print(result.y);
 }
