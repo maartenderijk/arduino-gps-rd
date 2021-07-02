@@ -119,12 +119,15 @@ static void printRD(float lat, float lng, bool valid)
     Serial.print(' ');
     Serial.print(result.y);
 
-    lcd.setCursor(0, 0);
-    lcd.print('x');
-    lcd.setCursor(2, 0);
-    lcd.print(result.x);
-    lcd.setCursor(0, 1);
-    lcd.print('y');
-    lcd.setCursor(2, 1);
-    lcd.print(result.y);
+    if (result.x > 0 && result.y > 0)
+    {
+        lcd.setCursor(0, 0);
+        lcd.print('x');
+        lcd.setCursor(2, 0);
+        lcd.print(result.x);
+        lcd.setCursor(0, 1);
+        lcd.print('y');
+        lcd.setCursor(2, 1);
+        lcd.print(result.y);
+    }
 }
